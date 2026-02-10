@@ -33,10 +33,12 @@ async function moveFile() {
   let newDestination = destination;
 
   if (lastChar === '/') {
-    const stat = await fs.stat(destination);
+    const directoryExists = await isDirectoryExists(destination);
 
-    if (!stat.isDirectory()) {
-      throw new Error('directory not exists');
+    if (!directoryExists) {
+      console.error('directory not exists');
+
+      return;
     }
 
     newDestination = destination + path.basename(source);
